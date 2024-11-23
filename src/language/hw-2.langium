@@ -2,15 +2,52 @@ grammar SmartHouse
 
 entry CPSModel :
 'repository' '{'
-    
+    SoftwareSpecification+
 '}'
 'market' '{'
-    
+  ComputerSpecification+
 '}'
 (cpss += CPS)+
+
 ;
 
-CPS: 'cps' name = ID  '{' '}';
+CPS: 'cps' name = ID  '{' CPSSpecification+ '}';
+SoftwareNameDeclaration: "Name" name = ID";";
+SoftwareSpecification:
+    'software' name=ID
+    ('depends' 'on' dependencies+=(ID)+)?
+    ('requires' 'memory' memory=INT 'GB')?
+    ';';
+
+ComputerSpecification:
+    'computer' name=ID
+    'processor' frequency=DOUBLE 'GHz'
+    ('depends' 'on' dependencies+=[SoftwareNameDeclaration]+)?
+    (cores=INT 'cores')?
+    'memory' memory=INT 'GB'
+    ';';
+CPSSpecification:
+    (computers += CPSComputer)*
+    (connections += CPSConnection)*;
+
+CPSComputer:
+    'computer' type = [ComputerSpecification]
+    (ID)
+     '{'
+        (hardware+=CPSHardware | software+=CPSSoftware)*
+    '}';
+
+CPSHardware:
+    'add' hardwareType=HardwareType;
+
+CPSSoftware:
+    'install' software = ID;
+
+CPSConnection:
+    from=[CPSComputer:ID] '-o)-' to=[CPSComputer:ID];
+
+
+HardwareType: types += 'Thermometer' | 'HeatController' | 'SmokeDetector' | 'FireAlarm';
 
 
 terminal DOUBLE returns number: /[0-9]+.[0-9]+/;

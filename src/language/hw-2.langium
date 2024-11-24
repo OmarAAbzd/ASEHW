@@ -12,7 +12,6 @@ entry CPSModel :
 ;
 
 CPS: 'cps' name = ID  '{' CPSSpecification+ '}';
-SoftwareNameDeclaration: "Name" name = ID";";
 SoftwareSpecification:
     'software' name=ID
     ('depends' 'on' dependencies+=(ID)+)?
@@ -20,9 +19,9 @@ SoftwareSpecification:
     ';';
 
 ComputerSpecification:
-    'computer' name=ID
+    'computer' (ID)
     'processor' frequency=DOUBLE 'GHz'
-    ('depends' 'on' dependencies+=[SoftwareNameDeclaration]+)?
+    ('depends' 'on' dependencies+=[SoftwareSpecification:ID]+)?
     (cores=INT 'cores')?
     'memory' memory=INT 'GB'
     ';';
@@ -31,8 +30,8 @@ CPSSpecification:
     (connections += CPSConnection)*;
 
 CPSComputer:
-    'computer' type = [ComputerSpecification]
-    (ID)
+    'computer' type = [ComputerSpecification:ID]
+    name = ID
      '{'
         (hardware+=CPSHardware | software+=CPSSoftware)*
     '}';

@@ -2,10 +2,10 @@ grammar SmartHouse
 
 entry CPSModel :
 'repository' '{'
-    software+=SoftwareSpecification+
+    software+=SoftwareSpecification*
 '}'
 'market' '{'
-  computer+=ComputerSpecification+
+  computer+=ComputerSpecification*
 '}'
 (cpss += CPS)+
 

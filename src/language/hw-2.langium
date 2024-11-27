@@ -2,16 +2,16 @@ grammar SmartHouse
 
 entry CPSModel :
 'repository' '{'
-    SoftwareSpecification+
+    software+=SoftwareSpecification+
 '}'
 'market' '{'
-  ComputerSpecification+
+  computer+=ComputerSpecification+
 '}'
 (cpss += CPS)+
 
 ;
 
-CPS: 'cps' name = ID  '{' CPSSpecification+ '}';
+CPS: 'cps' name = ID  '{' cps+=CPSSpecification+ '}';
 SoftwareSpecification:
     'software' name=ID
     ('depends' 'on' dependencies+=(ID)+)?
@@ -19,7 +19,7 @@ SoftwareSpecification:
     ';';
 
 ComputerSpecification:
-    'computer' (ID)
+    'computer' name=ID
     'processor' frequency=DOUBLE 'GHz'
     ('depends' 'on' dependencies+=[SoftwareSpecification:ID]+)?
     (cores=INT 'cores')?

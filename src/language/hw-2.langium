@@ -6,6 +6,7 @@ entry CPSModel :
 '}'
 'market' '{'
   computer+=ComputerSpecification*
+  laptop+=LaptopSpecification*
 '}'
 (cpss += CPS)+
 
@@ -25,6 +26,16 @@ ComputerSpecification:
     (cores=INT 'cores')?
     'memory' memory=INT 'GB'
     ';';
+
+LaptopSpecification:
+    'laptop' name=ID
+    'processor' frequency=DOUBLE 'GHz'
+    ('depends' 'on' dependencies+=[SoftwareSpecification:ID]+)?
+    (cores=INT 'cores')?
+    'memory' memory=INT 'GB'
+    ('battery' milliamp=DOUBLE 'mAh')?
+    ';';
+
 CPSSpecification:
     (computers += CPSComputer)*
     (connections += CPSConnection)*;

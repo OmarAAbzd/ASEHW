@@ -11,7 +11,7 @@ entry CPSModel :
 
 ;
 
-CPS: 'cps' name = ID  '{' cps+=CPSSpecification+ '}';
+CPS: 'cps' name = ID  '{' cps+=CPSSpecification* '}';
 SoftwareSpecification:
     'software' name=ID
     ('depends' 'on' dependencies+=(ID)+)?
